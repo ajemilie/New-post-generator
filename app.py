@@ -1,6 +1,10 @@
 import streamlit as st
 import os
 from openai import OpenAI
+import sys
+
+# Sikrer at standard output bruger UTF-8
+sys.stdout.reconfigure(encoding='utf-8')
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -31,8 +35,8 @@ if st.button("Generer opslag"):
                 opslag = response.choices[0].message.content
 
                 st.success("Dit opslag er klar:")
-                st.write(opslag)
-                st.code(opslag, language="text")
+                st.write(opslag)  # Direkte visning, håndterer emojis og specialtegn
+                st.download_button("📋 Download opslag som tekst", opslag, file_name="opslag.txt")
 
             except Exception as e:
                 st.error(f"Der opstod en fejl: {str(e)}")
