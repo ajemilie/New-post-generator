@@ -21,15 +21,20 @@ if st.button("Generer opslag"):
     else:
         with st.spinner("Genererer opslag..."):
             prompt = f"Du er en dygtig social media manager. Skriv et {tone.lower()} opslag på maks 100 ord om: {emne}"
-            
-            response = openai.ChatCompletion.create(
+
+            from openai import OpenAI
+client = OpenAI(api_key=openai.api_key)
+
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=200,
                 temperature=0.7
             )
-            
-            opslag = response.choices[0].message["content"]
+
+            opslag = response.choices[0].message.content
+
+         
             st.success("Dit opslag er klar:")
             st.write(opslag)
             
