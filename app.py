@@ -9,11 +9,13 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 st.set_page_config(page_title="Social Media Post Generator", page_icon="📝")
 
 st.title("📝 Social Media Post Generator")
-st.write("Lav hurtigt et opslag til sociale medier – selv uden IT-erfaring.")
+st.write("Lav hurtigt et opslag til sociale medier.")
 
 # Inputfelter
+medie = st.selectbox("Billede", ["Reel"])
 emne = st.text_input("Hvad skal opslaget handle om?")
-tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig"])
+indhold = st.text_input("Hvad er der på billedet/videoen?")
+tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig", "Skriv til en veninde"])
 
 if st.button("Generer opslag"):
     if emne.strip() == "":
