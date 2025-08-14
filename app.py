@@ -1,19 +1,19 @@
-# filnavn: app.py
+# app.py
 import streamlit as st
-import openai
 import os
+from openai import OpenAI
 
-# Indsæt din OpenAI API-nøgle i Streamlit Cloud's Secrets
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Hent API-nøgle fra miljøvariabel
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 st.set_page_config(page_title="Social Media Post Generator", page_icon="📝")
 
 st.title("📝 Social Media Post Generator")
-st.write("Lav hurtigt et opslag til sociale medier.")
+st.write("Lav hurtigt et opslag til sociale medier – selv uden IT-erfaring.")
 
 # Inputfelter
 emne = st.text_input("Hvad skal opslaget handle om?")
-tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig", "Skriv til en veninde"])
+tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig"])
 
 if st.button("Generer opslag"):
     if emne.strip() == "":
@@ -21,9 +21,6 @@ if st.button("Generer opslag"):
     else:
         with st.spinner("Genererer opslag..."):
             prompt = f"Du er en dygtig social media manager. Skriv et {tone.lower()} opslag på maks 100 ord om: {emne}"
-
-            from openai import OpenAI
-client = OpenAI(api_key=openai.api_key)
 
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -34,8 +31,6 @@ client = OpenAI(api_key=openai.api_key)
 
             opslag = response.choices[0].message.content
 
-         
             st.success("Dit opslag er klar:")
             st.write(opslag)
-            
             st.code(opslag, language="text")
