@@ -28,13 +28,13 @@ if st.button("Generer opslag"):
                 temperature=0.7
             )
 
-            # Sikrer, at teksten altid er ren unicode
-            opslag = str(response.choices[0].message.content)
+            opslag = response.choices[0].message.content
 
-            st.success("Dit opslag er klar:")
-            st.write(opslag)
+            # Rens output for ikke-ASCII tegn, men behold så meget som muligt
+            safe_opslag = opslag.encode("ascii", "ignore").decode()
 
-        except UnicodeEncodeError as ue:
-            st.error(f"Tegnkodningsfejl: {ue}. Sørg for at appen kører i et miljø med UTF-8 understøttelse.")
+            st.success("Dit opslag er klar (renset for specialtegn):")
+            st.write(safe_opslag)
+
         except Exception as e:
-            st.error(f"Der opstod en fejl: {e}")
+            st.error(f"Der opstod en fejl: {str(e)}")
