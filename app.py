@@ -2,7 +2,6 @@ import streamlit as st
 import os
 from openai import OpenAI
 
-# Hent API-nøgle fra Secrets
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 st.set_page_config(page_title="Instagram Post Generator", page_icon="📸")
@@ -10,7 +9,6 @@ st.set_page_config(page_title="Instagram Post Generator", page_icon="📸")
 st.title("📸 Instagram Post Generator")
 st.write("Skriv et emne og vælg en tone, så får du et færdigt opslag klar til Instagram.")
 
-# Input fra brugeren
 emne = st.text_input("Hvad skal opslaget handle om?")
 tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig"])
 
@@ -30,8 +28,12 @@ if st.button("Generer opslag"):
                 )
 
                 opslag = response.choices[0].message.content
+
+                # Rens for tegn der ikke kan vises i miljøet
+                safe_opslag = opslag.encode("ascii", "ignore").decode()
+
                 st.success("Her er dit opslag:")
-                st.write(opslag)
+                st.write(safe_opslag)
 
             except Exception as e:
                 st.error(f"Fejl: {str(e)}")
