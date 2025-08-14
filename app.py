@@ -12,7 +12,7 @@ st.title("📝 Social Media Post Generator")
 st.write("Lav hurtigt et opslag til sociale medier.")
 
 # Inputfelter
-medie = st.selectbox("Billede", ["Reel"])
+medie = st.selectbox("Vælg medie", ["Reel"], ["Billede"])
 emne = st.text_input("Hvad skal opslaget handle om?")
 indhold = st.text_input("Hvad er der på billedet/videoen?")
 tone = st.selectbox("Vælg tone", ["Professionel", "Humoristisk", "Inspirerende", "Personlig", "Skriv til en veninde"])
